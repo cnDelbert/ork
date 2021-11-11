@@ -1,7 +1,9 @@
 # Ignore all builds
 /build/
-# Ignore bin outut directory
+# Ignore bin output directory
 /bin/
 # Ignore library output directory
 /lib/
+# Ignore CMake generation dirs(for JetBrains)
+/cmake-build*
 
