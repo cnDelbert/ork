@@ -257,14 +257,17 @@ private:
 };
 
 extern const char uniform1f[];
-
 extern const char uniform1d[];
-
 extern const char uniform1i[];
-
 extern const char uniform1ui[];
-
 extern const char uniform1b[];
+
+/* Fixed by Delbert: Ensure symbols of template class could be exported with ORK_API. */
+template class ORK_API Uniform1<VEC1F, GLfloat, GLfloat, uniform1f, value1f>;
+template class ORK_API Uniform1<VEC1D, GLdouble, GLdouble, uniform1d, value1d>;
+template class ORK_API Uniform1<VEC1I, GLint, GLint, uniform1i, value1i>;
+template class ORK_API Uniform1<VEC1UI, GLuint, GLuint, uniform1ui, value1ui>;
+template class ORK_API Uniform1<VEC1B, bool, GLuint, uniform1b, value1b>;
 
 /**
  * A uniform holding a single float value.
@@ -386,14 +389,17 @@ private:
 };
 
 extern const char uniform2f[];
-
 extern const char uniform2d[];
-
 extern const char uniform2i[];
-
 extern const char uniform2ui[];
-
 extern const char uniform2b[];
+
+/* Fixed by Delbert: Ensure symbols of template class could be exported with ORK_API. */
+template class ORK_API Uniform2<VEC2F, GLfloat, GLfloat, uniform2f, value2f>;
+template class ORK_API Uniform2<VEC2B, GLdouble, GLdouble, uniform2d, value2d>;
+template class ORK_API Uniform2<VEC2I, GLint, GLint, uniform2i, value2i>;
+template class ORK_API Uniform2<VEC2UI, GLuint, GLuint, uniform2ui, value2ui>;
+template class ORK_API Uniform2<VEC2B, bool, GLuint, uniform2b, value2b>;
 
 /**
  * A uniform holding a single precision two vector.
@@ -516,14 +522,17 @@ private:
 };
 
 extern const char uniform3f[];
-
 extern const char uniform3d[];
-
 extern const char uniform3i[];
-
 extern const char uniform3ui[];
-
 extern const char uniform3b[];
+
+/* Fixed by Delbert: Ensure symbols of template class could be exported with ORK_API. */
+template class ORK_API Uniform3<VEC3F, GLfloat, GLfloat, uniform3f, value3f>;
+template class ORK_API Uniform3<VEC3D, GLdouble, GLdouble, uniform3d, value3d>;
+template class ORK_API Uniform3<VEC3I, GLint, GLint, uniform3i, value3i>;
+template class ORK_API Uniform3<VEC3UI, GLuint, GLuint, uniform3ui, value3ui>;
+template class ORK_API Uniform3<VEC3B, bool, GLuint, uniform3b, value3b>;
 
 /**
  * A uniform holding a single precision three vector.
@@ -647,14 +656,17 @@ private:
 };
 
 extern const char uniform4f[];
-
 extern const char uniform4d[];
-
 extern const char uniform4i[];
-
 extern const char uniform4ui[];
-
 extern const char uniform4b[];
+
+/* Fixed by Delbert: Ensure symbols of template class could be exported with ORK_API. */
+template class ORK_API Uniform4<VEC4F, GLfloat, GLfloat, uniform4f, value4f>;
+template class ORK_API Uniform4<VEC4D, GLdouble, GLdouble, uniform4d, value4d>;
+template class ORK_API Uniform4<VEC4I, GLint, GLint, uniform4i, value4i>;
+template class ORK_API Uniform4<VEC4UI, GLuint, GLuint, uniform4ui, value4ui>;
+template class ORK_API Uniform4<VEC4B, bool, GLuint, uniform4b, value4b>;
 
 /**
  * A uniform holding a single precision four vector.
