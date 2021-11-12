@@ -42,6 +42,10 @@
 #ifndef _ORK_UNIFORM_H_
 #define _ORK_UNIFORM_H_
 
+#if defined(_MSC_VER)
+#pragma warning(disable: 4251)
+#endif
+
 #include <map>
 #include <string>
 

@@ -5,7 +5,12 @@ include_directories("${PROJECT_SOURCE_DIR}" "${PROJECT_SOURCE_DIR}/libraries" "$
 file(GLOB SOURCE_FILES *.cpp */*.cpp)
 
 # Libraries
-set(LIBS GL GLU GLEW pthread stb_image tinyxml Xinerama Xcursor)
+IF(WIN32)
+	SET(LIBS OpenGL32 GLU32 GLEW32 pthreadVC2 stb_image tinyxml)
+ELSE(WIN32)
+	SET(LIBS GL GLU GLEW pthread stb_image tinyxml Xinerama Xcursor)
+ENDIF(WIN32)
+
 if(UNIX)
 	set(LIBS ${LIBS} rt)
 endif(UNIX)
@@ -23,6 +28,11 @@ set(LIBS ${LIBS} ${GLFWLIBS})
 message(STATUS "GLFW libs for " ${LIBTYPE} " library: " ${GLFWLIBS})
 
 # Create a static library
+IF(BUILD_SHARED)
+	LINK_DIRECTORIES(${PROJECT_SOURCE_DIR}/lib ${Glew_LIBRARY_DIRS} ${GLFW_LIBRARY_DIRS})
+ELSE(BUILD_SHARED)
+	LINK_DIRECTORIES(${PROJECT_SOURCE_DIR}/lib)
+ENDIF(BUILD_SHARED)
 add_library(${LIBNAME} ${LIBTYPE} ${SOURCE_FILES})
 target_link_libraries(${LIBNAME} ${LIBS})
 
@@ -31,7 +41,7 @@ target_link_libraries(${LIBNAME} ${LIBS})
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
-link_directories(${PROJECT_SOURCE_DIR}/lib)
+#link_directories(${PROJECT_SOURCE_DIR}/lib)
 
 # Install headers
 FOREACH(subdir core math render resource scenegraph taskgraph ui util)
@@ -40,10 +50,19 @@ FOREACH(subdir core math render resource scenegraph taskgraph ui util)
 ENDFOREACH(subdir)
 
 # Install library
-INSTALL(TARGETS ork LIBRARY DESTINATION ${LIB_INSTALL_DIR} ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
+IF(BUILD_SHARED)
+	INSTALL(TARGETS ork
+			LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+			ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
+			RUNTIME DESTINATION ${LIB_INSTALL_DIR})
+ELSE(BUILD_SHARED)
+	INSTALL(TARGETS ork
+			LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+			ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
+ENDIF(BUILD_SHARED)
 
 message(STATUS "Setting ork cflags for installation package")
-SET(ORK_CFLAGS "-DORK_API= -DTIXML_USE_STL" )
+SET(ORK_CFLAGS "-DORK_API=" "-DTIXML_USE_STL" )
 if(USE_SHARED_PTR)
 	message(STATUS "Setting shared ptr usage to final package")
 	set(ORK_CFLAGS ${ORK_CFLAGS} "-DUSE_SHARED_PTR")
@@ -52,8 +71,6 @@ if(USE_FREEGLUT)
 	message(STATUS "Setting freeglut usage to final package")
 	set(ORK_CFLAGS ${ORK_CFLAGS} "-DUSEFREEGLUT")
 endif(USE_FREEGLUT)
-
-message(STATUS "ork cflags: " ${ORK_CFLAGS})
 
 CONFIGURE_FILE(ork.pc.in ${PROJECT_BINARY_DIR}/ork.pc @ONLY)
 INSTALL(FILES ${PROJECT_BINARY_DIR}/ork.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)

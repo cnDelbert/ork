@@ -31,11 +31,15 @@ link_directories(${GLFW_LIBRARY_DIRS})
 find_package(GLUT)
 #find_package(OpenGL)
 
+SET(pThreads_INCLUDE_DIRS pThreads_INCLUDE_DIR-NOTFOUND CACHE PATH "pThreads include dir.")
+SET(pThreads_LIBRARY_DIRS pThreads_LIB-NOTFOUND CACHE PATH "pThreads lib dir(with x86/x64 suffix).")
+include_directories(${pThreads_INCLUDE_DIRS})
+link_directories(${pThreads_LIBRARY_DIRS})
 
 set(LIB_INSTALL_DIR "lib" CACHE STRING "Library directory name (lib/lib32/lib64)" )
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-add_definitions("-DORK_API=" "-DTIXML_USE_STL" "-fPIC")
+add_definitions("-DORK_API=__declspec(dllexport)" "-DTIXML_USE_STL" "-fPIC")
 
 option(BUILD_SHARED      "Build shared library instead of static"   OFF)
 option(BUILD_EXAMPLES    "Build examples"                           ON )
