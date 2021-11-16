@@ -35,20 +35,22 @@ With the Ork API you simply need two steps (and the first one does not need to b
 
 [Chocolatey](https://chocolatey.org/) provides the `pkg-config` command on Windows.
 
+Libraries required for `ork` is listed as follows:
+
 - Glew
-- GLU(Provided by OS).
-- OpenGL(Provided by OS).
+- GLU (Provided by OS).
+- OpenGL (Provided by OS).
 - GLFW.
 - FreeGLUT.
 - AntTweakBar.
 - pThreads.
-- TIFF.
+- TIFF (Required by **proland** project).
 
 #### Glew
 
 Glew's homepage is [Glew](http://glew.sourceforge.net/).
 
-For VS2017 or VS2019, [Perlmint](https://github.com/Perlmint/glew-cmake) one should be preferred.
+For VS2017 or VS2019, the [Perlmint](https://github.com/Perlmint/glew-cmake) fork should be preferred.
 
 A command line example to generate Visual Studio project is showing as follows:
 
@@ -97,6 +99,8 @@ Add the following line to the top of header file `pthreads.h` to avoid `timespec
 
 #### TIFF
 
+LibTIFF is required by **proland** project
+
 Tiff is library and tools for TIFF images.
 
 The Master HTTP Site http://www.remotesensing.org/libtiff has been deprecated.
@@ -110,6 +114,8 @@ When we clicked the Mirror Download Site <http://libtiff.maptools.org/dl/>, a re
 It seems that the [SimpleSystems](http://www.simplesystems.org/) hold the latest libtiff: <http://www.simplesystems.org/libtiff/>.
 
 Libtiff v3.6.1 does not have a CMakeLists.txt, we use v4.3.0 instead.
+
+Zlib1 and JPEG62 are recomended. Or, TIFF warning would show up.
 
 ## LF contribution
 
