@@ -62,7 +62,7 @@ ELSE(BUILD_SHARED)
 ENDIF(BUILD_SHARED)
 
 message(STATUS "Setting ork cflags for installation package")
-SET(ORK_CFLAGS "-DORK_API=" "-DTIXML_USE_STL" )
+SET(ORK_CFLAGS "-DORK_API=__declspec(dllexport)" "-DTIXML_USE_STL" )
 if(USE_SHARED_PTR)
 	message(STATUS "Setting shared ptr usage to final package")
 	set(ORK_CFLAGS ${ORK_CFLAGS} "-DUSE_SHARED_PTR")

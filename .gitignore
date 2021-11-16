@@ -6,4 +6,7 @@
 /lib/
 # Ignore CMake generation dirs(for JetBrains)
 /cmake-build*
+.idea
 
+# for VS
+.vs

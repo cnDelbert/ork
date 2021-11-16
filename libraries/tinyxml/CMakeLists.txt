@@ -4,7 +4,7 @@ set(LIBNAME "tinyxml")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 file(GLOB SOURCE_FILES *.cpp)
 
-add_definitions("-DORK_API=" "-DTIXML_USE_STL")
+add_definitions("-DTIXML_USE_STL")
 
 # Create a static library
 add_library(${LIBNAME} STATIC ${SOURCE_FILES})
