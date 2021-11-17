@@ -31,15 +31,23 @@ With the Ork API you simply need two steps (and the first one does not need to b
 
 ## Requirements
 
+> Notes:
+>
+> When compiling with CMake, a `-DCMAKE_INSTALL_PREFIX=` option is recommended. For spaces may cause include errors or NOTFOUND errors, install prefix should be a path without spaces.
+
+> 提示：
+> 
+> 使用CMake进行编译时，建议使用`-DCMAKE_INSTALL_PREFIX=`指定安装路径。安装路径中存在空格可能导致错误，建议指定不含空格的安装路径。
+
 `.pc` files should be found in env `PKG_CONFIG_PATH`.
 
 [Chocolatey](https://chocolatey.org/) provides the `pkg-config` command on Windows.
 
-通过[Chocolatey](https://chocolatey.org/) 包管理器安装Windows版本的 `pkg-config` 命令。
+通过 [Chocolatey](https://chocolatey.org/) 包管理器安装Windows版本的 `pkg-config` 命令。
 
-CMake命令会调用 `pkg-config` ，在`PKG_CONFIG_PATH`环境变量中查找`.pc`文件，自动生成`_INCLUDE_DIRS`和`_LIBRARY_DIRS`的CMake变量。
+CMake命令会调用 `pkg-config` ，在 `PKG_CONFIG_PATH` 环境变量中查找 `.pc` 文件，自动生成 `_INCLUDE_DIRS` 和 `_LIBRARY_DIRS` 的CMake变量。
 
-所有代码编译时使用同一的`Win32`或`X64`配置。
+所有代码编译时使用同一的 `Win32` 或 `X64` 配置。
 
 Libraries required for `ork` is listed as follows:
 
@@ -48,7 +56,7 @@ Libraries required for `ork` is listed as follows:
 - OpenGL (Provided by OS).
 - GLFW.
 - FreeGLUT.
-- AntTweakBar.
+- AntTweakBar (Required by **proland** project).
 - pThreads.
 - TIFF (Required by **proland** project).
 
@@ -96,7 +104,7 @@ AntTweakBar is required by **proland** project
 
 AntTweakBar should use the version modified by me in this [repo](https://github.com/cnDelbert/AntTweakBar).
 
-AntTweakBar的pre-build二进制中编译了使用`texture2D`的shader，会导致demo编译时崩溃。下载后打开`AntTweakBar_VS2012.sln`使用Visual Studio进行编译即可。
+AntTweakBar的pre-build二进制中编译了使用 `texture2D` 的shader，会导致demo编译时崩溃。下载后打开 `AntTweakBar_VS2012.sln` 使用Visual Studio进行编译即可。
 
 #### pThreads
 
@@ -136,6 +144,8 @@ where:
 		  See 'Version numbering' below.
 ```
 
+在 CMake 指定安装路径时，include路径指定 `Pre-built.2` 路径下的 `include` 文件夹；lib路径指定 `lib` 下的 `x86` （Win32）或 `x64` (X64)路径。
+
 #### TIFF
 
 LibTIFF is required by **proland** project
@@ -155,6 +165,8 @@ It seems that the [SimpleSystems](http://www.simplesystems.org/) hold the latest
 Libtiff v3.6.1 does not have a CMakeLists.txt, we use v4.3.0 instead.
 
 Zlib1 and JPEG62 are recomended. Or, TIFF warning would show up.
+
+> TBD: TIFF编译建议指定使用 zlib 和 JPEG 库，否则在运行 demo 时会有相关 Warning 并引起渲染错误。
 
 ## LF contribution
 
