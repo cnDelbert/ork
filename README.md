@@ -35,6 +35,12 @@ With the Ork API you simply need two steps (and the first one does not need to b
 
 [Chocolatey](https://chocolatey.org/) provides the `pkg-config` command on Windows.
 
+通过[Chocolatey](https://chocolatey.org/) 包管理器安装Windows版本的 `pkg-config` 命令。
+
+CMake命令会调用 `pkg-config` ，在`PKG_CONFIG_PATH`环境变量中查找`.pc`文件，自动生成`_INCLUDE_DIRS`和`_LIBRARY_DIRS`的CMake变量。
+
+所有代码编译时使用同一的`Win32`或`X64`配置。
+
 Libraries required for `ork` is listed as follows:
 
 - Glew
@@ -61,16 +67,20 @@ cmake ./cmake -Bvs16 -DCMAKE_INSTALL_PREFIX=bin/ -G"Visual Studio 16 2019"
 > Glu is required by Glew.
 >
 > Glu's source can be get from [MESA](https://gitlab.freedesktop.org/mesa/glu).
-> 
+>
 > For the `GLU32` lib has been provided by Windows, we should comment the `requireslib` parameter in CMakeLists.txt.
-> 
+>
 > ```cmake
 > # set (requireslib glu)
 > ```
 
+使用 [Perlmint](https://github.com/Perlmint/glew-cmake) 的Glew fork以使用CMake进行编译。同时生成`.pc`文件以便Proland通过`pkg-config`命令引用。
+
 #### GLFW3
 
 GLFW3 can be download from [the GLFW official site](https://www.glfw.org/).
+
+下载后使用CMake进行编译，通过`pkg-config`命令引用include和lib路径。
 
 #### Freeglut
 
@@ -78,9 +88,15 @@ Glut has been deprecated. Use freeglut instead.
 
 Freeglut can be get from [HERE](http://freeglut.sourceforge.net/index.php#download) or unofficial repo on [github](https://github.com/dcnieho/FreeGLUT).
 
+建议通过GitHub下载后，使用CMake进行编译，通过`pkg-config`命令引用include和lib路径。
+
 #### AntTweakBar
 
+AntTweakBar is required by **proland** project
+
 AntTweakBar should use the version modified by me in this [repo](https://github.com/cnDelbert/AntTweakBar).
+
+AntTweakBar的pre-build二进制中编译了使用`texture2D`的shader，会导致demo编译时崩溃。下载后打开`AntTweakBar_VS2012.sln`使用Visual Studio进行编译即可。
 
 #### pThreads
 
@@ -95,6 +111,29 @@ Add the following line to the top of header file `pthreads.h` to avoid `timespec
 
 ```c++
 #define HAVE_STRUCT_TIMESPEC 1
+```
+
+根据以下选项使用相应的pThreads库：
+
+```text
+In general:
+	pthread[VG]{SE,CE,C}[c].dll
+	pthread[VG]{SE,CE,C}[c].lib
+
+where:
+	[VG] indicates the compiler
+	V	- MS VC, or
+	G	- GNU C
+
+	{SE,CE,C} indicates the exception handling scheme
+	SE	- Structured EH, or
+	CE	- C++ EH, or
+	C	- no exceptions - uses setjmp/longjmp
+
+	c	- DLL compatibility number indicating ABI and API
+		  compatibility with applications built against
+		  a snapshot with the same compatibility number.
+		  See 'Version numbering' below.
 ```
 
 #### TIFF
