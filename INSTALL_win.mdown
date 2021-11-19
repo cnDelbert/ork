@@ -49,7 +49,7 @@ Windows SDK中包含了适用于对应操作系统的OpenGL头文件和编译好
 
 ### Glew
 
-Glew官网为<http://glew.sourceforge.net/>，提供了预编译的Windows 32bit和64bit二进制下载：https://sourceforge.net/projects/glew/files/glew/2.1.0/glew-2.1.0-win32.zip/download。
+Glew官网为<http://glew.sourceforge.net/>，提供了预编译的Windows 32bit和64bit二进制下载：https://sourceforge.net/projects/glew/files/glew/2.1.0/glew-2.1.0-win32.zip/download 。
 
 如需自行编译，建议从Perlmint的[glew-cmake](https://github.com/Perlmint/glew-cmake)获取代码。同时，该项目已经提供了Visual Studio 2017工程，可以直接使用。
 
@@ -75,7 +75,7 @@ cmake ./cmake -Bvs16 -DCMAKE_INSTALL_PREFIX=bin/ -G"Visual Studio 16 2019"
 
 ### GLFW
 
-GLFW源码可以从官网下载https://www.glfw.org/，最新版本为3.3.5。
+GLFW源码可以从官网下载 https://www.glfw.org/ ，最新版本为3.3.5。
 
 官网没有提供预编译版本，可以下载源码后直接生成对应lib。
 
@@ -87,11 +87,11 @@ GLFW源码可以从官网下载https://www.glfw.org/，最新版本为3.3.5。
 
 ### FreeGLUT
 
-GLFW源码可以从官网下载http://freeglut.sourceforge.net/，最新版本为3.2.1。
+GLFW源码可以从官网下载 http://freeglut.sourceforge.net/ ，最新版本为3.2.1。
 
 官网没有提供预编译版本，可以下载源码后直接生成对应lib。
 
-官网提供了第三方使用VS 2013编译的[3.0.0版本的Windows二进制](https://www.transmissionzero.co.uk/files/software/development/GLUT/freeglut-MSVC.zip)：https://www.transmissionzero.co.uk/software/freeglut-devel/
+官网提供了第三方使用VS 2013编译的[3.0.0版本的Windows二进制](https://www.transmissionzero.co.uk/files/software/development/GLUT/freeglut-MSVC.zip)下载链接：https://www.transmissionzero.co.uk/software/freeglut-devel/
 
 #### Prebuild
 
@@ -101,7 +101,7 @@ GLFW源码可以从官网下载http://freeglut.sourceforge.net/，最新版本�
 
 ### pThreads
 
-直接使用https://sourceware.org/pthreads-win32/而不是Sourceforge的POSIX Threads for Windows。
+直接使用 https://sourceware.org/pthreads-win32/ 而不是Sourceforge的POSIX Threads for Windows。
 
 网站已经提供了预编译文件下载。
 
@@ -110,12 +110,6 @@ GLFW源码可以从官网下载http://freeglut.sourceforge.net/，最新版本�
 预编译文件下载地址：<ftp://sourceware.org/pub/pthreads-win32>
 
 由于Windows 10系统已经提供了`timespec`结构体，需要在 `pthreads.h`中添加以下宏定义防止重复定义：
-
-```c++
-#define HAVE_STRUCT_TIMESPEC 1
-```
-
-根据以下选项使用相应的pThreads库：
 
 ```c++
 #define HAVE_STRUCT_TIMESPEC 1
