@@ -1,0 +1,156 @@
+# Windows下编译Ork
+
+如果是为了完成Proland项目编译运行，可以只完成**工具准备**和**Ork Prebuild**两节。
+
+提供的大部分预编译文件只有Win-X64-Release版本，如有其他需求，还需自行编译。
+
+## 工具准备
+
+- Git
+- CMake
+- PKG Config
+
+### Git
+
+Git可以从[Git SCM](https://git-scm.com/)进行下载。
+
+下载地址托管在aws，可能在国内无法访问。可以从[淘宝NPM](https://npmmirror.com/mirrors/git-for-windows/)(已切换新域名[[信源](https://developer.aliyun.com/article/801032)])或[华为云](https://mirrors.huaweicloud.com/git-for-windows/)的镜像地址进行下载安装。
+
+### CMake
+
+CMake可以从[官网](https://cmake.org/download/)下载最新版本。
+
+### PkgConfig
+
+`pkg-config`工具是Linux的包配置工具，在Windows上有些水土不服，但是还是有多种方法可以得到。
+
+将`pkg-config.exe`放到系统环境变量路径下，以便cmake可以调用。
+
+- 可以通过FreeDesktop下载[最新版本](https://gitlab.freedesktop.org/pkg-config/pkg-config/-/tags/pkg-config-0.29.2)，使用VS命令行`nmake /f Makefile.vc CFG=release`进行编译。
+- 通过[Chocolatey](https://chocolatey.org)包管理工具进行安装。
+- 直接使用已经编译好的二进制，例如[pkg-config brought to you by Delbert](http://ork-graphics.sourceforge.net/tools/pkg-config.exe)。
+
+## 代码准备
+
+- OpenGL
+- GLU
+- Glew
+- GLFW
+- FreeGLUT
+- pThreads
+
+### OpenGL和GLU
+
+Windows SDK中包含了适用于对应操作系统的OpenGL头文件和编译好的库。
+
+对于Visual Studio 2019，一般在安装时已经提供了Windows SDK。VS 2017及以下版本的Visual Studio可能在安装时没有安装，需要从微软官网的[Windows开发中心](https://developer.microsoft.com/windows/downloads/windows-sdk/)进行下载。如需以前版本的SDK，可以访问[Windows SDK 和模拟器存档](https://developer.microsoft.com/windows/downloads/windows-sdk/)页面获取。
+
+安装完成之后，VS会自动找到OpenGL和GLU的头文件及对应lib。
+
+### Glew
+
+Glew官网为<http://glew.sourceforge.net/>，提供了预编译的Windows 32bit和64bit二进制下载：https://sourceforge.net/projects/glew/files/glew/2.1.0/glew-2.1.0-win32.zip/download。
+
+如需自行编译，建议从Perlmint的[glew-cmake](https://github.com/Perlmint/glew-cmake)获取代码。同时，该项目已经提供了Visual Studio 2017工程，可以直接使用。
+
+如果使用VS2019，在可以使用以下命令行生成2019项目或使用cmake-gui进行生成：
+
+```cmake
+cmake ./cmake -Bvs16 -DCMAKE_INSTALL_PREFIX=bin/ -G"Visual Studio 16 2019"
+```
+
+> **Notes**
+>
+> 生成的`glew.pc`文件最后require了glu，可以直接在pc文件中删除，也可以将`build/cmake/CMakeLists.txt`中`set (requireslib glu)`一句注释掉：
+>
+> ```cmake
+> # set (requireslib glu)
+> ```
+
+#### Prebuild
+
+如果使用`.pc`，则需要将文件中`prefix`修改为自己的对应路径。注意路径分隔符需要使用`/`，且路径中不包含空格。
+
+- glew_2.2.0_x64.zip: http://ork.code.delbert.me/prebuild/glew_2.2.0_x64.zip
+
+### GLFW
+
+GLFW源码可以从官网下载https://www.glfw.org/，最新版本为3.3.5。
+
+官网没有提供预编译版本，可以下载源码后直接生成对应lib。
+
+#### Prebuild
+
+如果使用`.pc`，则需要将文件中`prefix`修改为自己的对应路径。注意路径分隔符需要使用`/`，且路径中不包含空格。
+
+- GLFW_3.3.5_x64.zip: http://ork.code.delbert.me/prebuild/GLFW_3.3.5_x64.zip
+
+### FreeGLUT
+
+GLFW源码可以从官网下载http://freeglut.sourceforge.net/，最新版本为3.2.1。
+
+官网没有提供预编译版本，可以下载源码后直接生成对应lib。
+
+官网提供了第三方使用VS 2013编译的[3.0.0版本的Windows二进制](https://www.transmissionzero.co.uk/files/software/development/GLUT/freeglut-MSVC.zip)：https://www.transmissionzero.co.uk/software/freeglut-devel/
+
+#### Prebuild
+
+如果使用`.pc`，则需要将文件中`prefix`修改为自己的对应路径。注意路径分隔符需要使用`/`，且路径中不包含空格。
+
+- freeglut_3.2.1_x64.zip: http://ork.code.delbert.me/prebuild/freeglut_3.2.1_x64.zip
+
+### pThreads
+
+直接使用https://sourceware.org/pthreads-win32/而不是Sourceforge的POSIX Threads for Windows。
+
+网站已经提供了预编译文件下载。
+
+#### Prebuild
+
+预编译文件下载地址：<ftp://sourceware.org/pub/pthreads-win32>
+
+由于Windows 10系统已经提供了`timespec`结构体，需要在 `pthreads.h`中添加以下宏定义防止重复定义：
+
+```c++
+#define HAVE_STRUCT_TIMESPEC 1
+```
+
+根据以下选项使用相应的pThreads库：
+
+```c++
+#define HAVE_STRUCT_TIMESPEC 1
+```
+
+根据以下选项使用相应的pThreads库：
+
+```text
+In general:
+	pthread[VG]{SE,CE,C}[c].dll
+	pthread[VG]{SE,CE,C}[c].lib
+
+where:
+	[VG] indicates the compiler
+	V	- MS VC, or
+	G	- GNU C
+
+	{SE,CE,C} indicates the exception handling scheme
+	SE	- Structured EH, or
+	CE	- C++ EH, or
+	C	- no exceptions - uses setjmp/longjmp
+
+	c	- DLL compatibility number indicating ABI and API
+		  compatibility with applications built against
+		  a snapshot with the same compatibility number.
+		  See 'Version numbering' below.
+```
+
+在 CMake 指定安装路径时，include路径指定 `Pre-built.2` 路径下的 `include` 文件夹；lib路径指定 `lib` 下的 `x86` （Win32）或 `x64` (X64)路径。
+
+本次编译使用`pthreadVC2`库。
+
+## Ork Prebuild
+
+如果使用`.pc`，则需要将文件中`prefix`修改为自己的对应路径。注意路径分隔符需要使用`/`，且路径中不包含空格。
+
+- ork_3.2_x64.zip: http://ork.code.delbert.me/prebuild/ork_3.2_x64.zip
+
