@@ -108,7 +108,7 @@ void TextureRectangle::init(int w, int h, TextureInternalFormat tf, TextureForma
                 offset += wl * hl * pixelSize;
                 needToGenerateMipmaps = false;
             }
-            this->params.lodMax(clamp(params.lodMax(), GLfloat(0.0f), GLfloat(level)));
+            this->params.lodMax(std::clamp(GLfloat(params.lodMax()), GLfloat(0.0f), GLfloat(level)));
         }
     }
     pixels.unbind(GL_PIXEL_UNPACK_BUFFER);
