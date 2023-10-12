@@ -42,7 +42,7 @@
 #ifndef _ORK_VEC2_H_
 #define _ORK_VEC2_H_
 
-#include "pmath.h"
+#include "math.h"
 #include "half.h"
 #include <cassert>
 
